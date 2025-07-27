@@ -1,35 +1,73 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
   <meta charset="UTF-8">
   <title>Ya Kusum Countdown</title>
   <style>
-    body { background: black; color: white; font-family: monospace; text-align: center; padding-top: 50px; }
-    #message { font-size: 2em; margin-bottom: 20px; }
-    #countdown { font-size: 3em; color: yellow; }
-    .firework { color: red; font-size: 2em; margin-top: 30px; animation: explode 0.5s alternate infinite; }
-    @keyframes explode { from { transform: scale(1); } to { transform: scale(1.2); } }
+    body {
+      background: black;
+      color: white;
+      font-family: monospace;
+      text-align: center;
+      padding-top: 50px;
+    }
+    #precount, #message, #countdown, #fireworks {
+      font-size: 2em;
+      margin: 20px;
+    }
+    #countdown {
+      font-size: 3em;
+      color: yellow;
+    }
+    .firework {
+      color: red;
+      font-size: 2em;
+      margin-top: 30px;
+      animation: explode 0.5s alternate infinite;
+    }
+    @keyframes explode {
+      from { transform: scale(1); }
+      to { transform: scale(1.2); }
+    }
   </style>
 </head>
 <body>
-  <div id="message">ya kusum called me uncle</div>
-  <div id="countdown">123</div>
+  <div id="precount"></div>
+  <div id="message" style="display:none;">ya kusum called me uncle</div>
+  <div id="countdown" style="display:none;">123</div>
   <div id="fireworks" style="display:none;">
+    <div class="firework">🔥🔥🔥🔥🔥🔥🔥🔥🔥</div>
     <div class="firework">🎆🎇 Boom! Fireworks! 🎇🎆</div>
-  </div>
-  <script>
-    let count = 123;
+  </div>  <script>
+    const precountEl = document.getElementById("precount");
+    const messageEl = document.getElementById("message");
     const countdownEl = document.getElementById("countdown");
     const fireworksEl = document.getElementById("fireworks");
-    const timer = setInterval(() => {
-      countdownEl.textContent = count;
-      count--;
-      if (count < 0) {
-        clearInterval(timer);
-        countdownEl.style.display = "none";
-        fireworksEl.style.display = "block";
+
+    const doPrecount = async () => {
+      for (let i = 1; i <= 3; i++) {
+        precountEl.textContent = i;
+        await new Promise(res => setTimeout(res, 1000));
       }
-    }, 20);
-  </script>
-</body>
+      precountEl.style.display = "none";
+      messageEl.style.display = "block";
+      await new Promise(res => setTimeout(res, 1000));
+      countdownEl.style.display = "block";
+      startCountdown();
+    };
+
+    const startCountdown = () => {
+      let count = 123;
+      const timer = setInterval(() => {
+        countdownEl.textContent = count;
+        count--;
+        if (count < 0) {
+          clearInterval(timer);
+          countdownEl.style.display = "none";
+          fireworksEl.style.display = "block";
+        }
+      }, 20);
+    };
+
+    doPrecount();
+  </script></body>
 </html>
